@@ -6,5 +6,8 @@ def main():
     digit_classifier.train_model(model="knn")
     digit_classifier.model_score(model="knn")
 
+    # digit_classifier.train_model(model="neural_net")
+    # digit_classifier.model_score(model="neural_net")
+
 
 main()

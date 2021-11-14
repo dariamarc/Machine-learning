@@ -1,5 +1,7 @@
+import pandas
 import sklearn.datasets
 import numpy as np
+from sklearn.datasets import fetch_openml
 from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score
 
@@ -12,11 +14,14 @@ class DigitClassifier:
 
     def __init__(self):
         print("Loading MNIST dataset...")
-        data = sklearn.datasets.load_digits()
-        self.inputs = data.data
-        self.targets = data.target
+        # data = sklearn.datasets.load_digits()
+        # self.inputs = data.data
+        # self.targets = data.target
+        X, y = fetch_openml("mnist_784", version=1, return_X_y=True)
+        self.inputs = pandas.DataFrame.to_numpy(X / 255.0)
+        self.targets = pandas.Series.to_numpy(y)
         print("OK - Dataset loaded succesfully")
-        self.neural_net = NeuralNetwork()
+        self.neural_net = NeuralNetwork((50,), 1e-4, "sgd", 0.1)
         self.kmeans = KMeans()
         self.knn = Knn()
 
@@ -49,6 +54,7 @@ class DigitClassifier:
     def test_model(self, model):
         if model == "neural_net":
             print("Predicting data using neural network...")
+            return self.neural_net.test(self.test_inputs)
         elif model == "kmeans":
             print("Predicting data using KMeans...")
             return self.kmeans.test(self.test_inputs)

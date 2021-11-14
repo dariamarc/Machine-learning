@@ -5,6 +5,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+ml projects.txt
+Survey on medical image segmentation.pdf
+Description of programming software used for first ML project.docx
+ML_lab2.docx
+Survey on medical image segmentation.docx
+
 # C extensions
 *.so
 

@@ -3,8 +3,8 @@ import sklearn.datasets
 import numpy as np
 from sklearn.datasets import fetch_openml
 from sklearn.decomposition import PCA
-from sklearn.metrics import accuracy_score
-
+from sklearn.metrics import accuracy_score, precision_score, recall_score, hamming_loss
+import matplotlib.pyplot as plt
 from kmeans.kmeans import KMeans
 from knn.knn import Knn
 from neural_net.neural_network import NeuralNetwork
@@ -21,7 +21,7 @@ class DigitClassifier:
         self.inputs = pandas.DataFrame.to_numpy(X / 255.0)
         self.targets = pandas.Series.to_numpy(y)
         print("OK - Dataset loaded succesfully")
-        self.neural_net = NeuralNetwork((50,), 1e-4, "sgd", 0.1)
+        self.neural_net = NeuralNetwork((100,), 1e-4, "sgd", 0.1)
         self.kmeans = KMeans()
         self.knn = Knn()
 
@@ -65,3 +65,21 @@ class DigitClassifier:
     def model_score(self, model):
         computed = self.test_model(model)
         print("Accuracy: ", accuracy_score(self.test_targets, computed))
+        print("Precision: ", precision_score(self.test_targets, computed, average="micro"))
+        print("Recall: ", recall_score(self.test_targets, computed, average="micro"))
+        print("Average error: ", hamming_loss(self.test_targets, computed))
+
+    def compare_knn(self):
+        self.train_inputs, self.train_targets, self.test_inputs, self.test_targets = self.split_data()
+        validation_error = []
+        for no_K in range(1, 10):
+            self.knn.train_K(no_K, self.train_inputs, self.train_targets)
+            computed = self.knn.test(self.test_inputs)
+            validation_error.append(hamming_loss(self.test_targets, computed))
+
+        neighbours = [i for i in range(1, 10)]
+        plt.plot(neighbours, validation_error)
+        plt.xlabel('K = number of neighbours')
+        plt.ylabel('Validation error')
+
+        plt.show()

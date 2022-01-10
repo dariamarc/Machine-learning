@@ -6,7 +6,7 @@ from sklearn.neural_network import MLPClassifier
 class NeuralNetwork:
 
     def __init__(self, hidden_layer_size, alpha, solver, learning_rate):
-        self.model = MLPClassifier(verbose=10, hidden_layer_sizes=(50,), alpha=1e-4, solver="sgd", learning_rate_init=0.1, random_state=1)
+        self.model = MLPClassifier(verbose=10, hidden_layer_sizes=hidden_layer_size, alpha=alpha, solver=solver, learning_rate_init=learning_rate, random_state=1)
 
 
     def train(self, inputs, targets, no_epochs=100):

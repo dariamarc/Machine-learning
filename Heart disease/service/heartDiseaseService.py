@@ -1,12 +1,9 @@
 from math import sqrt
 
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 from keras.utils import np_utils
 from matplotlib import pyplot
-from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score, roc_curve, \
-    precision_recall_curve, f1_score, auc
+from sklearn.metrics import accuracy_score, precision_score, recall_score, precision_recall_curve, f1_score, auc
 from service.neural_net import Network, FCLayer, ActivationLayer
 from service.dataService import DataService
 
@@ -89,11 +86,11 @@ class HeartDiseaseService:
         lr_precision, lr_recall, _ = precision_recall_curve(target, lr_probs)
         lr_f1, lr_auc = F1_score, auc(lr_recall, lr_precision)
         # summarize scores
-        print('Logistic: auc=%.3f' % lr_auc)
+        print('Model classification: auc=%.3f' % lr_auc)
         # plot the precision-recall curves
         no_skill = target[target == 1] / len(target)
-        pyplot.plot([0, 1], [no_skill, no_skill], linestyle='--', label='No Skill')
-        pyplot.plot(lr_recall, lr_precision, marker='.', label='Logistic')
+        pyplot.plot([0, 1], [no_skill, no_skill], linestyle='--', label='No skill')
+        pyplot.plot(lr_recall, lr_precision, marker='.', label='Classification')
         # axis labels
         pyplot.xlabel('Recall')
         pyplot.ylabel('Precision')

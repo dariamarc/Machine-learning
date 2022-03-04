@@ -1,5 +1,8 @@
-from repository import Repository
+
 import numpy as np
+
+from repository.repository import Repository
+
 
 class DataService:
 
